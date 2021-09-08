@@ -15,7 +15,7 @@ class Misc(commands.Cog):
         await ctx.send(f'pong! {round(self.client.latency * 1000)}ms')
 
     @commands.command(aliases = ['cls', 'c'])
-    async def clear(self, ctx, amount = 5):
+    async def clear(self, ctx, amount = 2):
         await ctx.channel.purge(limit = amount)
 
 def setup(client):

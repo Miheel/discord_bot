@@ -53,7 +53,7 @@ class Games(commands.Cog):
             await ctx.send(f'You win\n{outcome}')
         #Bot win
         else:
-            await ctx.send(f'You lose\n{outcome}')
+            await ctx.send(f'You lose\n{outcome}', tts=True)
 
 def setup(client):
     client.add_cog(Games(client))
