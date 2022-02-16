@@ -7,7 +7,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = commands.Bot(command_prefix = '!')
+client = commands.Bot(command_prefix = '.')
 
 @client.command()
 async def load(ctx, extension = None):

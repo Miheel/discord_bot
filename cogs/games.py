@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 
+
 class Games(commands.Cog):
 
     def __init__(self, client):
