@@ -3,10 +3,6 @@ from discord.ext import commands
 from bs4 import BeautifulSoup as BS
 import requests
 import re
-from enum import Enum
-
-
-
 
 class ServerStatus(commands.Cog):
     WEST_AMERICA = 0
@@ -17,10 +13,11 @@ class ServerStatus(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    #commands
     @commands.command(aliases = ['ark'])
     async def arkServerStat(self, ctx, region=CENTRAL_EUROPE):
-        ''''''
+        '''checks the server status of a region default central europe. 
+        can be changed to look att other regions
+        '''
         URL = "https://www.playlostark.com/en-gb/support/server-status"
 
         page = requests.get(URL)
@@ -32,20 +29,18 @@ class ServerStatus(commands.Cog):
         #skip all regions exept 3rg region 'default europe' and find all servers
         servers = server_region[region].find_all("div", class_='ags-ServerStatus-content-responses-response-server')
         
-        
         server_name_list = ""
         server_status_list = ""
 
         for server in servers:
             server_name = server.find('div', class_='ags-ServerStatus-content-responses-response-server-name')
-            server_status = server.find('div', class_='ags-ServerStatus-content-responses-response-server-name')
 
             if server.find('div', class_='ags-ServerStatus-content-responses-response-server-status--good'):
                 server_status = 'Good ✅'
             if server.find('div', class_='ags-ServerStatus-content-responses-response-server-status--busy'):
-                server_status = 'Busy ⚠️'
+                server_status = 'Busy ❌'
             if server.find('div', class_='ags-ServerStatus-content-responses-response-server-status--full'):
-                server_status = 'Full ❌'
+                server_status = 'Full ⚠️'
             if server.find('div', class_='ags-ServerStatus-content-responses-response-server-status--maintenance'):
                 server_status = 'Maintenamce 🛠️'
 
