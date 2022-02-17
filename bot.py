@@ -7,10 +7,10 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = commands.Bot(command_prefix = '.')
+client: commands.Bot = commands.Bot(command_prefix = '.')
 
 @client.command()
-async def load(ctx, extension = None):
+async def load(ctx: commands.Context, extension = None):
     if (extension == None):
         load_all_ext()
         await ctx.send(f'Loaded all cogs')
@@ -23,7 +23,7 @@ async def load_error(ctx, error):
     await ctx.send(f'The following error occured\n{error}')
 
 @client.command(aliases = ['uload'])
-async def unload(ctx, extension = None):
+async def unload(ctx: commands.Context, extension = None):
     if (extension == None):
 
         unload_all_ext()
@@ -33,11 +33,11 @@ async def unload(ctx, extension = None):
         await ctx.send(f'Unloaded cog {extension}')
 
 @unload.error
-async def unload_error(ctx, error):
+async def unload_error(ctx: commands.Context, error):
     await ctx.send(f'The following error occured\n{error}')
 
 @client.command(aliases = ['rload'])
-async def reload(ctx, extension = None):
+async def reload(ctx: commands.Context, extension = None):
     if (extension == None):
         unload_all_ext()
         load_all_ext()
@@ -48,7 +48,7 @@ async def reload(ctx, extension = None):
         await ctx.send(f'Reloaded cog {extension}')
 
 @reload.error
-async def reload_error(ctx, error):
+async def reload_error(ctx: commands.Context, error):
     await ctx.send(f'The following error occured\n{error}')
 
 

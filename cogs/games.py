@@ -6,11 +6,11 @@ import random
 class Games(commands.Cog):
 
     def __init__(self, client):
-        self.client = client
+        self.client: commands.Bot = client
 
     #commands
     @commands.command(aliases = ['8ball'])
-    async def _8ball(self, ctx, *, question):
+    async def _8ball(self, ctx: commands.Context, *, question):
         responses = ['It is certain.',
                     'It is decidedly so.',
                     'Without a doubt.',
@@ -35,7 +35,7 @@ class Games(commands.Cog):
         await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
 
     @commands.command(aliases = ['RPS'])
-    async def rockpaperscisor(self, ctx, choice = None):
+    async def rockpaperscisor(self, ctx: commands.Context, choice = None):
         list = ['Rock', 'Paper', 'Scissors']
 
         bot_choice = random.choice(list)

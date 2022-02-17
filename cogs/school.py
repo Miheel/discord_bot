@@ -11,10 +11,10 @@ URL = ""
 class School(commands.Cog):
 
     def __init__(self, client):
-        self.client = client
+        self.client: commands.Bot = client
 
     @commands.command(aliases = ["day"])
-    async def schedule(self, ctx, nr_days = 1):
+    async def schedule(self, ctx: commands.Context, nr_days = 1):
         page = requests.get(URL)
         soup = BS(page.text, 'html.parser')
 

@@ -20,10 +20,10 @@ ydl = youtube_dl.YoutubeDL(ydl_opts)
 class Music(commands.Cog):
     
     def __init__(self, client):
-        self.client = client
+         self.client: commands.Bot = client
 
     @commands.command()
-    async def join(self, ctx):
+    async def join(self, ctx: commands.Context):
         try:
             Voice_channel = ctx.author.voice.channel
             await Voice_channel.connect()
@@ -31,14 +31,14 @@ class Music(commands.Cog):
             await ctx.send(f'Bot already connected to a chanel')
 
     @commands.command()
-    async def leave(self, ctx):
+    async def leave(self, ctx: commands.Context):
         try:
             await ctx.voice_client.disconnect()
         except AttributeError:
             await ctx.send(f'Bot is not connected')
 
     @commands.command()
-    async def play(self, ctx, song = None):
+    async def play(self, ctx: commands.Context, song = None):
         try:
             Voice_channel = ctx.author.voice.channel
             await Voice_channel.connect()
@@ -50,19 +50,19 @@ class Music(commands.Cog):
             ctx.voice_client.play(discord.FFmpegPCMAudio(url, **ffmpeg_options))
 
     @commands.command()
-    async def stop(self, ctx):
+    async def stop(self, ctx: commands.Context):
         await ctx.voice_client.stop()
 
     @commands.command()
-    async def pause(self, ctx):
+    async def pause(self, ctx: commands.Context):
         await ctx.voice_client.pause()
 
     @commands.command()
-    async def resume(self, ctx):
+    async def resume(self, ctx: commands.Context):
         await ctx.voice_client.resume()
 
     @play.before_invoke
-    async def check(self, ctx):
+    async def check(self, ctx: commands.Context):
         if ctx.voice_client == None:
             pass
         elif ctx.voice_client.is_playing():
