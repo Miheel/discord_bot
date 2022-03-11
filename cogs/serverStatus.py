@@ -1,5 +1,5 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from bs4 import BeautifulSoup as BS
 import requests
 import re
@@ -7,14 +7,31 @@ import re
 class ServerStatus(commands.Cog):
     WEST_AMERICA = 0
     EAST_AMERICA = 1
-    CENTRAL_EUROPE = 2
-    SOUTH_AMERICA = 3
+    WEST_EUROPE = 2
+    CENTRAL_EUROPE = 3
+    SOUTH_AMERICA = 4
     
     def __init__(self, client):
-        self.client = client
+        self.client : commands.Bot = client
+        #self.arkServerStatLoop.start()
 
-    @commands.command(aliases = ['ark'])
-    async def arkServerStat(self, ctx, region=CENTRAL_EUROPE):
+    #@arkServerStat.before_loop
+    #async def bot_ready(self):
+    #    await self.client.wait_until_ready()
+
+    @commands.command(aliases = ['arkstart'])
+    async def arkServerStatStart(self, ctx: commands.Context, region=CENTRAL_EUROPE):
+        print("Starting loop")
+        self.arkServerStatLoop.start(ctx, region)
+
+    @commands.command(aliases = ['arkstop'])
+    async def arkServerStatStop(self, ctx: commands.Context):
+        print("Stopping loop")
+        self.arkServerStatLoop.stop()
+
+    @tasks.loop(minutes=5)
+    #@commands.command(aliases = ['ark'])
+    async def arkServerStatLoop(self, ctx: commands.Context, region):
         '''checks the server status of a region default central europe. 
         can be changed to look att other regions
         '''
@@ -26,7 +43,7 @@ class ServerStatus(commands.Cog):
         #find all server regions
         server_region = soup.find_all(class_=re.compile("(ags-ServerStatus-content-responses-response ags-ServerStatus-content-responses-response--centered)"))
         
-        #skip all regions exept 3rg region 'default europe' and find all servers
+        #skip all regions exept region 'default europe' and find all servers
         servers = server_region[region].find_all("div", class_='ags-ServerStatus-content-responses-response-server')
         
         server_name_list = ""
